@@ -1,0 +1,111 @@
+//Mancunian And Trivisible Arrays
+#include <iostream>
+using namespace std;
+
+int main()
+{
+   int n,c=0,a;
+    cin>>n;
+    while(n--){
+        cin>>a;
+        if(a%3!=0) c++;
+    }
+    cout<<c;
+    return 0;
+}
+
+//Mancunian and Pandigital Numbers
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> pand;
+bool isPandigital(int n) {
+            int digits = 0;
+            int count = 0;
+            int tmp;
+            while (n > 0) {
+                tmp = digits;
+                digits = digits | 1 << (int)((n % 10) - 1);
+                if (tmp == digits) {
+                    return false;
+                }
+                count++;
+                n /= 10;
+            }
+            return digits == (1 << count) - 1;
+        }
+void init(){
+    for(int i=0;i<=1000000;i++)
+        if(isPandigital(i)) pand.push_back(i);
+}
+int main()
+{
+    init();
+    int q,l,r;
+    cin>>q;
+    while(q--){
+        cin>>l>>r;
+        int i=0,count=0;
+        while(l>pand[i])
+        i++;
+        while(r>=pand[i]&&i<pand.size()){
+            i++;
+            count++;
+        }
+        cout<<count<<endl;
+    }
+    return 0;
+}
+
+//Mancunian And Liverbird Go Bar Hopping
+#include <iostream>
+#include <vector>
+#define endl "\n"
+using namespace std;
+int main()
+{
+    int n,q=10,s,f=1,b=0; bool fd=true;
+    std::ios::sync_with_stdio(false);
+    cin>>n;
+    vector<int> dir(n-1);
+    vector<int> fw_f(n);
+    vector<int> fw_b(n);
+    vector<int> rev_f(n);
+    vector<int> rev_b(n);
+    for(int i=0;i<n-1;i++)
+        cin>>dir[i];
+    fw_f[n-1]=1;    
+    for(int i=n-2;i>=0;i--){
+        if(dir[i]==1) fw_f[i]=fw_f[i+1]+1;
+        else fw_f[i]=1;
+    }
+    fw_b[0]=1;
+    for(int i=1;i<n;i++){
+        if(dir[i-1]==0) fw_b[i]=fw_b[i-1]+1;
+        else fw_b[i]=1;
+    }
+    rev_f[n-1]=1;
+    for(int i=n-2;i>=0;i--){
+        if(dir[i]==0) rev_f[i]=rev_f[i+1]+1;
+        else rev_f[i]=1;
+    }
+    rev_b[0]=1;
+    for(int i=1;i<n;i++){
+        if(dir[i-1]==1) rev_b[i]=rev_b[i-1]+1;
+        else rev_b[i]=1;
+    }
+    cin>>q;
+    char ch;
+    while(q--){
+        cin>>ch;
+         
+        if(ch=='U')
+              fd=!fd;
+        else{
+            cin>>s;
+            if(fd) cout<<fw_f[s-1]+fw_b[s-1]-1<<endl;
+            else cout<<rev_f[s-1]+rev_b[s-1]-1<<endl;
+        }
+    }
+    return 0;
+}
